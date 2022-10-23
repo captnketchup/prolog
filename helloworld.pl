@@ -11,21 +11,23 @@ init_matrix(0-_, _, []) :- !.
 
 % initializes a matrix by rows
 init_matrix(N-M, Tents, [OutHead|OutTail]) :-
-    init_row(N-M, Tents, OutHead2),
+    init_row(N-M, Tents, OutHead2, 0),
     % reverse row to get correct order (we built it backwards by
     % decrementing the value instead of going 0..N)
-    reverseList(OutHead2, OutHead), 
+    % reverseList(OutHead2, OutHead), 
     N1 is N - 1,    % decrement row number
     init_matrix(N1-M, Tents, OutTail).
 
+
 % exit condition for end of row
-init_row(_-0, _, []) :- !.
+init_row(_-M, _, [], M) :- !.
 
 % initializes a row with ones and zeroes (tent or no tent)
-init_row(RowNumber-ColNumber, Tents, [RowHead|RowTail]) :-
-    ColNumber1 is ColNumber - 1,    % decrement column number
-    init_matrix_field(RowNumber-ColNumber, Tents, RowHead),
-    init_row(RowNumber-ColNumber1, Tents, RowTail).
+init_row(RowNumber-ColNumber, Tents, [RowHead|RowTail], ColAccumulator) :-
+    % ColNumber1 is ColNumber - 1,    % decrement column number
+    ColAccumulator1 is ColAccumulator + 1,
+    init_matrix_field(RowNumber-ColAccumulator1, Tents, RowHead),
+    init_row(RowNumber-ColNumber, Tents, RowTail, ColAccumulator1).
 
 %X-Y is part of Tents -> its value is 1
 init_matrix_field(X-Y, Tents, FieldValue) :-
@@ -70,7 +72,7 @@ are_tents_colliding([TentHead|TentTail]) :-
     \+ member(TentHead, TentTail),
     are_tents_colliding(TentTail).
 
-% disclaimer: got it fromhttps://www.educba.com/prolog-reverse-list/
+% disclaimer: got it from https://www.educba.com/prolog-reverse-list/
 reverseList([H|T], ReversedList):-
     reverseListHelper(T,[H], ReversedList).
 
