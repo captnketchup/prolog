@@ -1,22 +1,17 @@
 satrak_mx(N-M, Fs, Ss, Mx) :-
     get_all_tents(Fs, Ss, Tents, N-M),
-    init_matrix(N-M, Tents, Mx2),
-    are_tents_colliding(Tents),
-    % reverse rows to get correct order (we built the rows 
-    % backwards by decrementing the value instead of going 0..M)
-    reverseList(Mx2, Mx).
+    init_matrix(N-M, Tents, Mx, 0),
+    are_tents_colliding(Tents).
+    
 
 % exit condition for end of matrix
-init_matrix(0-_, _, []) :- !.    
+init_matrix(N-_, _, [], N) :- !.    
 
 % initializes a matrix by rows
-init_matrix(N-M, Tents, [OutHead|OutTail]) :-
-    init_row(N-M, Tents, OutHead2, 0),
-    % reverse row to get correct order (we built it backwards by
-    % decrementing the value instead of going 0..N)
-    % reverseList(OutHead2, OutHead), 
-    N1 is N - 1,    % decrement row number
-    init_matrix(N1-M, Tents, OutTail).
+init_matrix(N-M, Tents, [OutHead|OutTail], RowAccumulator) :-
+    RowAccumulator2 is RowAccumulator + 1,
+    init_row(RowAccumulator2-M, Tents, OutHead, 0),
+    init_matrix(N-M, Tents, OutTail, RowAccumulator2).
 
 
 % exit condition for end of row
@@ -24,7 +19,6 @@ init_row(_-M, _, [], M) :- !.
 
 % initializes a row with ones and zeroes (tent or no tent)
 init_row(RowNumber-ColNumber, Tents, [RowHead|RowTail], ColAccumulator) :-
-    % ColNumber1 is ColNumber - 1,    % decrement column number
     ColAccumulator1 is ColAccumulator + 1,
     init_matrix_field(RowNumber-ColAccumulator1, Tents, RowHead),
     init_row(RowNumber-ColNumber, Tents, RowTail, ColAccumulator1).
@@ -71,12 +65,3 @@ are_tents_colliding([]) :- !.
 are_tents_colliding([TentHead|TentTail]) :-
     \+ member(TentHead, TentTail),
     are_tents_colliding(TentTail).
-
-% disclaimer: got it from https://www.educba.com/prolog-reverse-list/
-reverseList([H|T], ReversedList):-
-    reverseListHelper(T,[H], ReversedList).
-
-reverseListHelper([], Acc, Acc).
-
-reverseListHelper([H|T], Acc, ReversedList):-
-    reverseListHelper(T, [H|Acc], ReversedList).
