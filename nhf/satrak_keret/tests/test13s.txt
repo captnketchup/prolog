@@ -1,0 +1,1 @@
+[[e,s,w,s,e,s,w,n,s,e,n,e,n,e,n,e,w,e,n,s,w,s,n,s,w,w,n,n,w,n,w,w,s,n,s,s,n,e,w,w,s,e,n],[e,s,w,s,e,s,w,n,s,e,n,e,n,e,n,e,w,e,n,s,w,s,n,s,w,w,n,n,w,n,w,w,s,s,n,s,n,e,w,w,s,e,n],[w,s,w,s,e,s,w,n,s,e,n,e,n,e,n,e,w,e,n,s,w,s,n,s,w,w,n,n,w,n,e,w,s,s,n,s,n,e,w,w,s,e,n]].

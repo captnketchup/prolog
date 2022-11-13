@@ -1,0 +1,4 @@
+[
+ [e,e,n,s,w,n,s,w,w],
+ [w,w,s,n,w,s,n,e,e]
+].

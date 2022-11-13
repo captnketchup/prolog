@@ -1,0 +1,8 @@
+[
+ [e,s,n,n,s,e,e,n,s,w,w,e,s,s,e,e,e,e,s,w,s,e,w,w,s,n,w,w,s,w,w,n,s,e,w,w,w,s,w,w,n,s,s,w,w,s,w,w,e,e,w,w,n,n,e],
+ [e,s,n,n,s,e,e,n,s,w,w,e,s,s,e,e,e,e,s,w,s,e,w,w,s,n,w,w,s,w,w,n,s,e,w,w,w,s,w,w,s,n,s,w,w,s,w,w,e,e,w,w,n,n,e],
+ [w,s,n,n,s,e,e,n,s,w,w,e,s,s,e,e,e,e,s,w,s,e,w,w,s,n,w,w,s,e,w,n,s,e,w,w,w,s,w,w,n,s,s,w,w,s,w,w,e,e,w,w,n,n,e],
+ [w,s,n,n,s,e,e,n,s,w,w,e,s,s,e,e,e,e,s,w,s,e,w,w,s,n,w,w,s,e,w,n,s,e,w,w,w,s,w,w,s,n,s,w,w,s,w,w,e,e,w,w,n,n,e],
+ [w,s,n,n,s,e,e,n,s,w,w,e,s,s,e,e,e,e,s,w,s,w,w,s,e,n,w,w,w,s,w,n,s,e,w,w,w,s,w,w,n,s,s,w,w,s,w,w,e,e,n,w,n,e,e],
+ [w,s,n,n,s,e,e,n,s,w,w,e,s,s,e,e,e,e,s,w,s,w,w,s,e,n,w,w,w,s,w,n,s,e,w,w,w,s,w,w,s,n,s,w,w,s,w,w,e,e,n,w,n,e,e]
+].

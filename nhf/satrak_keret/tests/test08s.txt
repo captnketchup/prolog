@@ -1,0 +1,4 @@
+[
+ [s,e,e,w,w,s,s,e,s,e,s,s,n,w,n,s,n,s,e,e,s,w,s,n,w,w,w,e,n,e,s,s,w,n,e],
+ [s,e,e,w,w,s,s,n,s,e,s,s,n,w,n,s,n,s,e,e,s,w,s,n,w,w,w,e,n,e,s,s,w,n,e]
+].

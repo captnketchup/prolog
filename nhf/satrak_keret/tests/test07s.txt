@@ -1,0 +1,4 @@
+[
+ [e,n,e,e,e,n,s,w,e,e,e,e,n,w,s,n,w,n,s,e],
+ [e,n,e,e,e,s,n,w,e,e,e,e,n,w,s,n,w,n,s,e]
+].

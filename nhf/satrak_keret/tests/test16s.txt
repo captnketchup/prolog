@@ -1,0 +1,10 @@
+[
+ [e,e,w,s,e,e,w,n,w,w,s,e,n,s,w,e,n,s,e,s,w,w,e,w,e,e,w,e,e,n,w],
+ [e,e,w,s,e,e,w,n,w,w,s,e,n,s,w,e,n,s,e,s,w,w,e,w,e,e,w,e,w,n,e],
+ [e,e,w,s,e,e,w,n,w,w,s,w,n,s,w,e,n,s,e,s,w,w,e,w,e,e,e,e,e,n,w],
+ [e,e,w,s,e,e,w,n,w,w,s,w,n,s,w,e,n,s,e,s,w,w,e,w,e,e,e,e,w,n,e],
+ [e,w,w,s,e,e,w,n,w,w,s,e,n,s,w,e,n,s,e,s,w,w,e,w,e,e,w,e,e,n,w],
+ [e,w,w,s,e,e,w,n,w,w,s,e,n,s,w,e,n,s,e,s,w,w,e,w,e,e,w,e,w,n,e],
+ [e,w,w,s,e,e,w,n,w,w,s,w,n,s,w,e,n,s,e,s,w,w,e,w,e,e,e,e,e,n,w],
+ [e,w,w,s,e,e,w,n,w,w,s,w,n,s,w,e,n,s,e,s,w,w,e,w,e,e,e,e,w,n,e]
+].

@@ -1,0 +1,3 @@
+[
+ [w,e,e,w,e,w,w,s,n,n,s,s,s,n,s,n,e,e,n,w,w,s,s,n,s,s,s,n,n,w,e,e,w,s,s,s,n,s,e,w,w,w,s,s,n,w,s,w,w,w,s,n,s,w,n,w,w,w,w,n,s,n,e,s,e,e,e,n,e,e,s,n,n,s,n,n,e,n,w,e,n,w,n,n,n,s,e,s,w,e,e,n,w,w,n,n,w,e,w,n,s,e,s,w,w,s,s,s,w,n,n,w,e,s,w,n,n,s,n,e,e,e,n,w,w,n,e,w]
+].
