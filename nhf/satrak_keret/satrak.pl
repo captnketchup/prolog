@@ -1,9 +1,78 @@
+% :- type fLeiro  ---> satrak(sSzS, sSzO, list(parc)).
+% :- type sSzS    == list(int).
+% :- type sSzO    == list(int).
+% :- type parc    == int-int.
+% :- type irany   ---> n    % észak
+%                 ;    e    % kelet
+%                 ;    s    % dél
+%                 ;    w.   % nyugat
+% :- type sHelyek   == list(irany).
+% :- pred satrak(fLeiro::in, sHelyek::out).
+
+% Ss: sátrak soronkénti száma
+% Os: sátrak oszloponkénti száma
+% Fs: fák sor(i)-oszlop(j)
+satrak(Leiro, Solution) :-
+    Leiro = satrak(Ss, Os, Fs),
+    % mátrix paraméterek
+    length(SS, N),
+    length(Os, M),
+    % iránylisták generálása
+    iranylistak(NM, Fs, Ils0),
+    OG_list is Ils0
+    .
+
+oszloponkent_szukites(_, [], _, Ils0, Ils) :- 
+    write_ln(Ils0),
+    Ils = Ils0.
+
+oszloponkent_szukites(Fs, [OszlopHead|OszlopTail], Index1, Ils0, Ils) :-
+    Osszegfeltetel = oszl(Index1, OszlopHead),
+    write("index "),
+    write_ln(Index1),
+    write_ln("eleinte:"),
+    write_ln(Ils0),
+    write_ln(""),
+    (
+        (
+            osszeg_szukites(Fs, Osszegfeltetel, Ils0, Ils1),
+            write_ln("Osszegfeltetel:"),
+            write_ln(Osszegfeltetel),
+            write_ln("osszegszukites:"),
+            write_ln(Ils1),
+            write_ln(""),
+            Index is Index1 + 1,
+            oszloponkent_szukites(Fs, OszlopTail, Index, Ils1, Ils)
+        )
+        ;
+        (
+            write_ln("nem osszegszukites:"),
+            write_ln(Ils0),
+            write_ln(""),
+            Index is Index1 + 1,
+            oszloponkent_szukites(Fs, OszlopTail, Index, Ils0, Ils)
+        )
+    )    
+    .
+
+
+% src: https://stackoverflow.com/questions/22545726/prolog-two-lists-are-exactly-the-same
+same([], []).
+
+same([H1|R1], [H2|R2]):-
+    H1 = H2,
+    same(R1, R2).
+
+
+
+% khf6.pl
 % Fs: fák
 % ILs0: bemeneti iránylisták fákhoz->
 % ILs: kimeneti (csökkentett) változó
 % pattern matching sorra
 osszeg_szukites(Fs, Osszegfeltetel, ILs0, ILs) :-
-    Osszegfeltetel = sor(_,Db),
+    Osszegfeltetel = sor(_,Db1),
+    (Db1 < 0 -> Db is 999; Db is Db1),
     fa_szamlalas(Fs, Osszegfeltetel, ILs0, Bs, Es),
     length(Bs, B),
     length(Es, E),
@@ -12,20 +81,28 @@ osszeg_szukites(Fs, Osszegfeltetel, ILs0, ILs) :-
     ;   B + E =:= Db -> esetleg_szukites(Fs, Osszegfeltetel, ILs0, Es, ILs)
     ;   B == Db -> biztos_szukites(Fs, Osszegfeltetel, ILs0, Es, ILs)
     ;   B > Db -> ILs = []
-    )
-    .
+    ;   Ils = Ils0
+    ).
 
 % pattern matching oszlopra
 osszeg_szukites(Fs, Osszegfeltetel, ILs0, ILs) :-
-    Osszegfeltetel = oszl(_,Db),
+    Osszegfeltetel = oszl(_,Db1),
+    (Db1 < 0 -> Db is 999; Db is Db1),
+    write_ln("Db"),
+    write_ln(Db),
     fa_szamlalas(Fs, Osszegfeltetel, ILs0, Bs, Es),
     length(Bs, B),
     length(Es, E),
+    write_ln("Bs:"),
+    write_ln(Bs),
+    write_ln("Es:"),
+    write_ln(Es),
     (
         B + E < Db -> ILs = []
     ;   B + E =:= Db -> esetleg_szukites(Fs, Osszegfeltetel, ILs0, Es, ILs)
     ;   B == Db -> biztos_szukites(Fs, Osszegfeltetel, ILs0, Es, ILs)
     ;   B > Db -> ILs = []
+    ;   Ils = Ils0
     )
     .
 
@@ -168,4 +245,110 @@ get_tent(X-Y, Direction, Tent) :-
         ;Direction == w -> Y1 is Y-1, Tent = X-Y1
         ;Direction == e -> Y1 is Y+1, Tent = X-Y1
     ).
+
+:- use_module(library(lists)).
+
+iranylistak(NM, Fs, ILs) :-
+    make_directions(Fs, NM, Directions, Fs),
+    (
+        member([], Directions) -> ILs = [];
+        ILs = Directions
+    ).
+
+sator_szukites(Fs, I, ILs0, Ils) :- 
+    nth1(I, Fs, Tree),
+    nth1(I, ILs0, TentDirection),
+    % check if the tent directions are greater than 1
+    length(TentDirection, TentLength),
+    TentLength = 1,
+    nth0(0, TentDirection, TentDir),
+    get_tent(Tree, TentDir, Tent),
+    neighbouring_fields(Tent, Neighbours),
+    traverse_trees(Fs, ILs0, Neighbours, ILs1),
+    (
+        member([], ILs1) -> Ils = [];
+        Ils = ILs1
+    ).
+
+traverse_trees(_, [], _, []) :- !.
+traverse_trees([_|Trees], [OutHead|DirectionListTail], Neighbouring_fields, [OutHead|OutTail]) :-
+    length(OutHead, TentLength),
+    TentLength = 1,
+    traverse_trees(Trees, DirectionListTail, Neighbouring_fields, OutTail).
+traverse_trees([Tree|Trees], [DirectionListHead|DirectionListTail], Neighbouring_fields, [OutHead|OutTail]) :-
+    % do not test for one sized direction lists
+    length(DirectionListHead, TentLength),
+    TentLength > 1,
+    findall(Dir, (member(Dir, DirectionListHead),
+        get_tent(Tree, Dir, Tent),
+         \+ member(Tent, Neighbouring_fields)), OutHead),
+    traverse_trees(Trees, DirectionListTail, Neighbouring_fields, OutTail).
     
+
+% gets the neighbouring fields of a field
+neighbouring_fields(X-Y, Field) :- 
+    NegativeX is X-1,
+    PositiveX is X+1,
+    NegativeY is Y-1,
+    PositiveY is Y+1,
+    Field = [NegativeX-PositiveY, X-PositiveY, PositiveX-PositiveY,
+    NegativeX-Y, X-Y, PositiveX-Y, 
+    NegativeX-NegativeY, X-NegativeY, PositiveX-NegativeY].
+
+
+% exit condition for make_directions/4
+make_directions([], _, [], _) :- !.
+    
+% generates the possible directions for the trees
+make_directions([TreeHead|TreeTail], NM, [Direction|Directions], Trees) :-
+    get_tent(TreeHead, n, NorthTent),
+    get_tent(TreeHead, s, SouthTent),
+    get_tent(TreeHead, w, WestTent),
+    get_tent(TreeHead, e, EastTent),
+    % if the direction is on the grid and it's not occupied by a tree, it gets the value of
+    % the direction it's supposed to represent (n,s,w,e)
+    (
+        is_tent_on_matrix(NM, NorthTent) -> (is_tent_on_tree(NorthTent, Trees) -> N = n;
+        N = []);
+        N = []
+    ),
+    (
+        is_tent_on_matrix(NM, SouthTent) -> (is_tent_on_tree(SouthTent, Trees) -> S = s;
+        S = []);
+        S = []
+    ),
+    (
+        is_tent_on_matrix(NM, WestTent) -> (is_tent_on_tree(WestTent, Trees) -> W = w;
+        W = []);
+        W = []
+    ),
+    (
+        is_tent_on_matrix(NM, EastTent) -> (is_tent_on_tree(EastTent, Trees) -> E = e;
+        E = []);
+        E = []
+    ),
+    % flatten([E,N,S,W], Direction),
+    exclude(empty, [E,N,S,W], Direction),
+    
+    make_directions(TreeTail, NM, Directions, Trees).
+
+empty([]).
+
+is_tent_on_tree(Tent, Trees) :-
+    \+ member(Tent, Trees).  
+
+% is tent located on the matrix
+is_tent_on_matrix(N-M, Tent) :-
+    Tent = X-Y,
+    X >= 1,
+    X =< N,
+    Y >= 1,
+    Y =< M.
+
+% exit condition for tent field checking
+are_tents_colliding([]) :- !.
+
+% checks if all the tents are on seperate fields
+are_tents_colliding([TentHead|TentTail]) :-
+    \+ member(TentHead, TentTail),
+    are_tents_colliding(TentTail).
