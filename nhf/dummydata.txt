@@ -1,0 +1,10 @@
+[1-2,3-3,3-5,5-1,5-5]
+[[e, s, w], [e, n, s, w], [n, s, w], [e, n], [n, w]]
+
+oszloponkent_szukites([1-2,3-3,3-5,5-1,5-5], [1,0,-1,0,2], 0, [[e, s, w], [e, n, s, w], [n, s, w], [e, n], [n, w]], Ils).
+
+oszloponkent_szukites([1-2,3-3,3-5,5-1,5-5], [1,0,-1,0,2], 1, [[e, s, w], [e, n, s, w], [n, s, w], [e, n], [n, w]], Ils).
+
+osszeg_szukites([1-2,3-3,3-5,5-1,5-5], oszl(1, 1), [[e,n,s,w],[e,n,s,w],[e,n,s,w],[e,n,s,w],[e,n,s,w]], Ils).
+
+consult("satrak.pl").
